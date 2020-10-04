@@ -39,6 +39,10 @@ public class BoundedPriorityQueue<E> implements Iterable<E> {
         return mQueue.iterator();
     }
 
+    public <E> E[] toArray() {
+        return (E[]) mQueue.toArray();
+    }
+
     @Override
     public String toString() {
         return mQueue.toString();
