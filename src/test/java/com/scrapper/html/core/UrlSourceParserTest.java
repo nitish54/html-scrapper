@@ -1,31 +1,41 @@
 package com.scrapper.html.core;
 
+import com.scrapper.html.props.UrlProcessInitProperties;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.List;
 
 public class UrlSourceParserTest {
 
-    public static final int WORD_LENGTH_THRESHOLD = 2;
-    final UrlSourceParser parser = new UrlSourceParser("https://orrsella.gitbooks.io/soft-eng-interview-prep/content/topics/complexity.html", WORD_LENGTH_THRESHOLD);
+    private static UrlSourceParser urlSourceParser;
+
+    @BeforeClass
+    public static void init(){
+        UrlProcessInitProperties properties = UrlProcessInitProperties.INSTANCE;
+        properties.setUrl("https://spring.io/guides/gs/securing-web/");
+        properties.setDepth(1);
+        properties.setWordLengthThreshold(3);
+        urlSourceParser = new UrlSourceParser(properties.getUrl(), properties.getWordLengthThreshold());
+    }
 
     @Test
     public void testExtractWords() {
-        parser.processWords();
-        List<String> words = parser.getListOfWords();
-        words.forEach(word -> Assert.assertEquals(word.length() >= WORD_LENGTH_THRESHOLD, true));
+        urlSourceParser.processWords();
+        List<String> words = urlSourceParser.getListOfWords();
+        words.forEach(word -> Assert.assertEquals(word.length() >= UrlProcessInitProperties.INSTANCE.getWordLengthThreshold(), true));
     }
 
     @Test
     public void testGetDocumentUrls() {
-        List<String> response = parser.getDocumentUrls();
+        List<String> response = urlSourceParser.getDocumentUrls();
         Assert.assertThat(response, CoreMatchers.everyItem(CoreMatchers.startsWith("http")));
     }
 
     @Test
     public void testIsParsable(){
-        Assert.assertEquals(parser.isParsable(), true);
+        Assert.assertEquals(urlSourceParser.isParsable(), true);
     }
 }
