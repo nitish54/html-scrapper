@@ -5,13 +5,26 @@ import com.scrapper.html.props.UrlProcessInitProperties;
 
 import java.util.Scanner;
 
+/**
+ * Starter class to initialize the HTML Scrapper
+ * Can be used to achieve multiple use-cases. In this case it is specifically being used to process an URL and extracts Words from the Document.
+ */
 public class HtmlScrapper {
 
     public static void main(String[] args) {
-        processUrl();
+        startProcessing();
     }
 
-    public static void processUrl() {
+    /**
+     * Driver method to execute the whole process
+     * <ui>
+     * <li>Takes input</li>
+     * <li>Initializes startup properties</li>
+     * <li>Executes Processor</li>
+     * <li>Returns Top 10 words and word pairs</li>
+     * <ui/>
+     */
+    public static void startProcessing() {
         UrlProcessInitProperties properties = initProperties();
         UrlWordProcessor urlWordProcessor = new UrlWordProcessor(properties);
         urlWordProcessor.process();
@@ -21,6 +34,10 @@ public class HtmlScrapper {
         System.out.println("-----------------------------------------------------------------");
     }
 
+    /**
+     * Initializes initial values for the necessary properties like source url, maximum depth to consider and Word length threshold to mark a word valid.
+     * @return
+     */
     private static UrlProcessInitProperties initProperties() {
         UrlProcessInitProperties properties = UrlProcessInitProperties.INSTANCE;
         Scanner sc = new Scanner(System.in);

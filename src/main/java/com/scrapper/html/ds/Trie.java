@@ -6,10 +6,18 @@ import com.scrapper.html.model.Word;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * Implementation of Trie Data structure for keeping the finite list of words in the form of a multi children tree.
+ * It can be used to identify a word as well it's count if the word has been added multiple times.
+ */
 public class Trie {
 
     private TrieNode root = new TrieNode();
 
+    /**
+     * Inserts a word to Data Structure
+     * @param word
+     */
     public void insert(String word) {
         TrieNode current = root;
 
@@ -21,6 +29,12 @@ public class Trie {
         current.setCount(current.getCount() + 1);
     }
 
+    /**
+     * Returns true if the word is present in the {@link Trie}
+     * else false
+     * @param word
+     * @return
+     */
     public boolean find(String word) {
         TrieNode current = root;
         for (int i = 0; i < word.length(); i++) {
@@ -34,6 +48,10 @@ public class Trie {
         return current.isWord();
     }
 
+    /**
+     * Returns top 10 Words using the {@link BoundedPriorityQueue} in the sorted order(DESC)
+     * @return
+     */
     public BoundedPriorityQueue<Word> getTop10Words() {
         BoundedPriorityQueue<Word> pq = new BoundedPriorityQueue<>(new Word.WordComparator(), 10);
         Queue<TrieNode> queue = new LinkedList<>();
@@ -50,6 +68,10 @@ public class Trie {
         return pq;
     }
 
+    /**
+     * Returns top 10 Word pairs using the {@link BoundedPriorityQueue} in the sorted order(DESC)
+     * @return
+     */
     public BoundedPriorityQueue<Word> getTop10WordPairs() {
         BoundedPriorityQueue<Word> pq = new BoundedPriorityQueue<>(new Word.WordComparator(), 10);
         Queue<TrieNode> queue = new LinkedList<>();
